@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,6 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PayrollSystemGUI extends JFrame {
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new PayrollSystemGUI().setVisible(true);
+            }
+        });
+    }
+
     private JTextField fullNameField, staffNumberField, monthYearField, icNumberField, bankAccountNumberField, totalCarsSoldField, totalAmountSoldField;
     private JTextArea displayArea;
     private List<Salesman> salesmen;
@@ -219,13 +229,5 @@ public class PayrollSystemGUI extends JFrame {
         } catch (IOException | ClassNotFoundException e) {
             salesmen = new ArrayList<>();
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new PayrollSystemGUI().setVisible(true);
-            }
-        });
     }
 }

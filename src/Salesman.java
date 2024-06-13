@@ -1,7 +1,4 @@
-import java.io.Serializable;
-
-public class Salesman implements Serializable {
-    private static final long serialVersionUID = 1L; // Add this line for serialization compatibility
+public class Salesman {
     private String fullName;
     private String staffNumber;
     private String monthYear;
