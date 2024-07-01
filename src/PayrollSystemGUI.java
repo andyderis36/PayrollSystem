@@ -255,6 +255,7 @@ public class PayrollSystemGUI extends JFrame {
         totalAmountSoldField.setText("");
         statusGroup.clearSelection();
         displayArea.setText("");
+        searchField.setText("");
     }
 
     private void saveSalesmen() {
