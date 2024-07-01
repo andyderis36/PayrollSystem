@@ -1,4 +1,6 @@
+
 public class Salesman {
+
     private String fullName;
     private String staffNumber;
     private String monthYear;
@@ -135,20 +137,19 @@ public class Salesman {
 
     @Override
     public String toString() {
-        return "Salesman{" +
-                "fullName='" + fullName + '\'' +
-                ", staffNumber='" + staffNumber + '\'' +
-                ", monthYear='" + monthYear + '\'' +
-                ", icNumber='" + icNumber + '\'' +
-                ", bankAccountNumber='" + bankAccountNumber + '\'' +
-                ", totalCarsSold=" + totalCarsSold +
-                ", totalAmountSold=" + totalAmountSold +
-                ", carBodyCommission=" + carBodyCommission +
-                ", incentiveCommission=" + incentiveCommission +
-                ", grossSalary=" + grossSalary +
-                ", epf=" + epf +
-                ", incomeTax=" + incomeTax +
-                ", netSalary=" + netSalary +
-                '}';
+        return "Full Name = " + fullName + "\n"
+                + "Staff Number = " + staffNumber + "\n"
+                + "Month/Year = " + monthYear + "\n"
+                + "IC Number = " + icNumber + "\n"
+                + "Bank Account Number = " + bankAccountNumber + "\n"
+                + "Total Cars Sold = " + totalCarsSold + "\n"
+                + "Total Amount Sold = " + totalAmountSold + "\n"
+                + "Car Body Commission = " + carBodyCommission + "\n"
+                + "Incentive Commission = " + incentiveCommission + "\n"
+                + "Gross Salary = " + grossSalary + "\n"
+                + "EPF = " + epf + "\n"
+                + "Income Tax = " + incomeTax + "\n"
+                + "Net Salary = " + netSalary + "\n"
+                + "\n";
     }
 }

@@ -2,6 +2,14 @@
     "java.project.sourcePaths": ["src"],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
-        "lib/**/*.jar"
+        "lib/**/*.jar",
+        "/Users/andyderis33/Downloads/javafx-sdk-21.0.3/lib/javafx-swt.jar",
+        "/Users/andyderis33/Downloads/javafx-sdk-21.0.3/lib/javafx.swing.jar",
+        "/Users/andyderis33/Downloads/javafx-sdk-21.0.3/lib/javafx.fxml.jar",
+        "/Users/andyderis33/Downloads/javafx-sdk-21.0.3/lib/javafx.media.jar",
+        "/Users/andyderis33/Downloads/javafx-sdk-21.0.3/lib/javafx.web.jar",
+        "/Users/andyderis33/Downloads/javafx-sdk-21.0.3/lib/javafx.base.jar",
+        "/Users/andyderis33/Downloads/javafx-sdk-21.0.3/lib/javafx.controls.jar",
+        "/Users/andyderis33/Downloads/javafx-sdk-21.0.3/lib/javafx.graphics.jar"
     ]
 }
