@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -12,33 +11,85 @@ public class PayrollSystemGUI extends JFrame {
         SwingUtilities.invokeLater(() -> new PayrollSystemGUI().setVisible(true));
     }
 
-    private JTextField fullNameField, staffNumberField, monthYearField, icNumberField, bankAccountNumberField, totalCarsSoldField, totalAmountSoldField;
+    private JTextField fullNameField, staffNumberField, icNumberField, bankAccountNumberField, totalCarsSoldField, totalAmountSoldField, searchField;
     private JTextArea displayArea;
+    private JComboBox<String> monthComboBox, yearComboBox;
+    private JRadioButton contractRadioButton, permanentRadioButton;
+    private ButtonGroup statusGroup;
+
     private List<Salesman> salesmen;
 
     public PayrollSystemGUI() {
         setTitle("Salesman Payroll System");
-        setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
 
+        // Use GridBagLayout for main content layout
         Container container = getContentPane();
-        container.setLayout(new BorderLayout(10, 10));
+        container.setLayout(new GridBagLayout());
 
-        JPanel formPanel = new JPanel();
-        formPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.BOTH;
 
-        addLabelAndField(formPanel, gbc, "Full Name:", fullNameField = new JTextField(), 0);
-        addLabelAndField(formPanel, gbc, "Staff Number:", staffNumberField = new JTextField(), 1);
-        addLabelAndField(formPanel, gbc, "Month/Year:", monthYearField = new JTextField(), 2);
-        addLabelAndField(formPanel, gbc, "IC Number:", icNumberField = new JTextField(), 3);
-        addLabelAndField(formPanel, gbc, "Bank Account Number:", bankAccountNumberField = new JTextField(), 4);
-        addLabelAndField(formPanel, gbc, "Total Cars Sold:", totalCarsSoldField = new JTextField(), 5);
-        addLabelAndField(formPanel, gbc, "Total Amount Sold:", totalAmountSoldField = new JTextField(), 6);
+        // Search Panel
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        searchField = new JTextField(20);
+        searchPanel.add(new JLabel("Search by Full Name or Staff Number:"));
+        searchPanel.add(searchField);
 
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+        gbc.gridwidth = 2;
+        container.add(searchPanel, gbc);
+
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints formGbc = new GridBagConstraints();
+        formGbc.insets = new Insets(5, 5, 5, 5);
+        formGbc.fill = GridBagConstraints.HORIZONTAL;
+        formGbc.gridx = 0;
+        formGbc.gridy = 1;
+
+        addLabelAndField(formPanel, formGbc, "Full Name:", fullNameField = new JTextField(), 0);
+        addLabelAndField(formPanel, formGbc, "Staff Number:", staffNumberField = new JTextField(), 1);
+
+        // ComboBox for Month
+        formGbc.gridx = 0;
+        formGbc.gridy = 2;
+        formPanel.add(new JLabel("Month:"), formGbc);
+        formGbc.gridx = 1;
+        monthComboBox = new JComboBox<>(new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"});
+        formPanel.add(monthComboBox, formGbc);
+
+        // ComboBox for Year
+        formGbc.gridx = 0;
+        formGbc.gridy = 3;
+        formPanel.add(new JLabel("Year:"), formGbc);
+        formGbc.gridx = 1;
+        yearComboBox = new JComboBox<>(new String[]{"2024", "2025", "2026"}); // Update with relevant years
+        formPanel.add(yearComboBox, formGbc);
+
+        addLabelAndField(formPanel, formGbc, "IC Number:", icNumberField = new JTextField(), 4);
+        addLabelAndField(formPanel, formGbc, "Bank Account Number:", bankAccountNumberField = new JTextField(), 5);
+        addLabelAndField(formPanel, formGbc, "Total Cars Sold:", totalCarsSoldField = new JTextField(), 6);
+        addLabelAndField(formPanel, formGbc, "Total Amount Sold:", totalAmountSoldField = new JTextField(), 7);
+
+        // Radio buttons for Employment Status
+        formGbc.gridx = 0;
+        formGbc.gridy = 8;
+        formPanel.add(new JLabel("Employment Status:"), formGbc);
+        formGbc.gridx = 1;
+        JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        contractRadioButton = new JRadioButton("Contract");
+        permanentRadioButton = new JRadioButton("Permanent");
+        statusGroup = new ButtonGroup();
+        statusGroup.add(contractRadioButton);
+        statusGroup.add(permanentRadioButton);
+        statusPanel.add(contractRadioButton);
+        statusPanel.add(permanentRadioButton);
+        formPanel.add(statusPanel, formGbc);
+
+        // Button Panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
 
@@ -50,13 +101,32 @@ public class PayrollSystemGUI extends JFrame {
         addButton(buttonPanel, "Reset", e -> resetFields());
         addButton(buttonPanel, "Exit", e -> System.exit(0));
 
-        displayArea = new JTextArea(10, 40);
+        displayArea = new JTextArea(20, 30);
         displayArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(displayArea);
 
-        container.add(formPanel, BorderLayout.NORTH);
-        container.add(buttonPanel, BorderLayout.CENTER);
-        container.add(scrollPane, BorderLayout.SOUTH);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.weightx = 1;
+        gbc.gridwidth = 2;
+        container.add(formPanel, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.weightx = 1;
+        gbc.gridwidth = 2;
+        container.add(buttonPanel, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.gridwidth = 2;
+        container.add(scrollPane, gbc);
+
+        pack(); // Pack components to set the size based on preferred sizes
+        setLocationRelativeTo(null); // Center the window on the screen
+        setVisible(true);
 
         loadSalesmen();
     }
@@ -82,13 +152,16 @@ public class PayrollSystemGUI extends JFrame {
         try {
             String fullName = fullNameField.getText();
             String staffNumber = staffNumberField.getText();
-            String monthYear = monthYearField.getText();
+            String month = (String) monthComboBox.getSelectedItem();
+            String year = (String) yearComboBox.getSelectedItem();
+            String monthYear = month + " " + year;
             String icNumber = icNumberField.getText();
             String bankAccountNumber = bankAccountNumberField.getText();
             int totalCarsSold = Integer.parseInt(totalCarsSoldField.getText());
             double totalAmountSold = Double.parseDouble(totalAmountSoldField.getText());
+            String status = contractRadioButton.isSelected() ? "Contract" : "Permanent";
 
-            Salesman salesman = new Salesman(fullName, staffNumber, monthYear, icNumber, bankAccountNumber, totalCarsSold, totalAmountSold);
+            Salesman salesman = new Salesman(fullName, staffNumber, monthYear, icNumber, bankAccountNumber, totalCarsSold, totalAmountSold, status);
             salesmen.add(salesman);
             saveSalesmen();
 
@@ -99,20 +172,28 @@ public class PayrollSystemGUI extends JFrame {
     }
 
     private void searchSalesman() {
-        String fullName = fullNameField.getText();
+        String searchValue = searchField.getText().trim().toLowerCase();
+        boolean found = false;
+        StringBuilder result = new StringBuilder();
+
         for (Salesman salesman : salesmen) {
-            if (salesman.getFullName().equalsIgnoreCase(fullName)) {
-                displayArea.setText(salesman.toString());
-                return;
+            if (salesman.getFullName().toLowerCase().contains(searchValue) || salesman.getStaffNumber().equalsIgnoreCase(searchValue)) {
+                result.append(salesman.toString()).append("\n\n");
+                found = true;
             }
         }
-        displayArea.setText("Salesman not found.");
+
+        if (found) {
+            displayArea.setText(result.toString());
+        } else {
+            displayArea.setText("Salesman not found.");
+        }
     }
 
     private void displayAllSalesmen() {
         StringBuilder allSalesmen = new StringBuilder();
         for (int i = 0; i < salesmen.size(); i++) {
-            allSalesmen.append("*** SALESMAN - ").append(i + 1).append(" *** \n \n");
+            allSalesmen.append("[ SALESMAN - ").append(i + 1).append(" ] \n");
             allSalesmen.append(salesmen.get(i).toString()).append("\n");
         }
         displayArea.setText(allSalesmen.toString());
@@ -124,11 +205,14 @@ public class PayrollSystemGUI extends JFrame {
             if (salesman.getFullName().equalsIgnoreCase(fullName)) {
                 try {
                     salesman.setStaffNumber(staffNumberField.getText());
-                    salesman.setMonthYear(monthYearField.getText());
+                    String month = (String) monthComboBox.getSelectedItem();
+                    String year = (String) yearComboBox.getSelectedItem();
+                    salesman.setMonthYear(month + " " + year);
                     salesman.setIcNumber(icNumberField.getText());
                     salesman.setBankAccountNumber(bankAccountNumberField.getText());
                     salesman.setTotalCarsSold(Integer.parseInt(totalCarsSoldField.getText()));
                     salesman.setTotalAmountSold(Double.parseDouble(totalAmountSoldField.getText()));
+                    salesman.setStatus(contractRadioButton.isSelected() ? "Contract" : "Permanent");
                     salesman.calculateCommissions();
                     salesman.calculateSalaries();
                     saveSalesmen();
@@ -163,11 +247,13 @@ public class PayrollSystemGUI extends JFrame {
     private void resetFields() {
         fullNameField.setText("");
         staffNumberField.setText("");
-        monthYearField.setText("");
+        monthComboBox.setSelectedIndex(0);
+        yearComboBox.setSelectedIndex(0);
         icNumberField.setText("");
         bankAccountNumberField.setText("");
         totalCarsSoldField.setText("");
         totalAmountSoldField.setText("");
+        statusGroup.clearSelection();
         displayArea.setText("");
     }
 
@@ -175,7 +261,7 @@ public class PayrollSystemGUI extends JFrame {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("salesmen.dat"))) {
             oos.writeObject(salesmen);
         } catch (IOException e) {
-            displayArea.setText("Error: Unable to save salesmen data.");
+            displayArea.setText("Error: Could not save salesmen data.");
         }
     }
 
@@ -186,167 +272,82 @@ public class PayrollSystemGUI extends JFrame {
             salesmen = new ArrayList<>();
         }
     }
+}
 
-    public static class Salesman implements Serializable {
+class Salesman implements Serializable {
 
-        private static final long serialVersionUID = 1L;
-        private String fullName;
-        private String staffNumber;
-        private String monthYear;
-        private String icNumber;
-        private String bankAccountNumber;
-        private int totalCarsSold;
-        private double totalAmountSold;
-        private double carBodyCommission;
-        private double incentiveCommission;
-        private double grossSalary;
-        private double epf;
-        private double incomeTax;
-        private double netSalary;
+    private String fullName, staffNumber, monthYear, icNumber, bankAccountNumber, status;
+    private int totalCarsSold;
+    private double totalAmountSold, commissions, salaries;
 
-        public Salesman(String fullName, String staffNumber, String monthYear, String icNumber, String bankAccountNumber, int totalCarsSold, double totalAmountSold) {
-            this.fullName = fullName;
-            this.staffNumber = staffNumber;
-            this.monthYear = monthYear;
-            this.icNumber = icNumber;
-            this.bankAccountNumber = bankAccountNumber;
-            this.totalCarsSold = totalCarsSold;
-            this.totalAmountSold = totalAmountSold;
-            calculateCommissions();
-            calculateSalaries();
-        }
+    public Salesman(String fullName, String staffNumber, String monthYear, String icNumber, String bankAccountNumber, int totalCarsSold, double totalAmountSold, String status) {
+        this.fullName = fullName;
+        this.staffNumber = staffNumber;
+        this.monthYear = monthYear;
+        this.icNumber = icNumber;
+        this.bankAccountNumber = bankAccountNumber;
+        this.totalCarsSold = totalCarsSold;
+        this.totalAmountSold = totalAmountSold;
+        this.status = status;
+        calculateCommissions();
+        calculateSalaries();
+    }
 
-        public void calculateCommissions() {
-            this.carBodyCommission = 0.01 * this.totalAmountSold;
+    public String getFullName() {
+        return fullName;
+    }
 
-            if (totalCarsSold >= 5 && totalCarsSold <= 9) {
-                this.incentiveCommission = totalCarsSold * 200;
-            } else if (totalCarsSold >= 10 && totalCarsSold <= 14) {
-                this.incentiveCommission = totalCarsSold * 400;
-            } else if (totalCarsSold > 14) {
-                this.incentiveCommission = totalCarsSold * 600;
-            } else {
-                this.incentiveCommission = 0;
-            }
-        }
+    public String getStaffNumber() {
+        return staffNumber;
+    }
 
-        public void calculateSalaries() {
-            double basicSalary = 1500;
-            this.grossSalary = basicSalary + carBodyCommission + incentiveCommission;
-            this.epf = 0.11 * grossSalary;
-            this.incomeTax = calculateIncomeTax(grossSalary);
-            this.netSalary = grossSalary - epf - incomeTax;
-        }
+    public void setStaffNumber(String staffNumber) {
+        this.staffNumber = staffNumber;
+    }
 
-        private double calculateIncomeTax(double grossSalary) {
-            double tax = 0;
-            if (grossSalary <= 416.67) {
-                tax = 0;
-            } else if (grossSalary <= 1666.67) {
-                tax = (grossSalary - 416.67) * 0.01;
-            } else if (grossSalary <= 2916.67) {
-                tax = 12.5 + (grossSalary - 1666.67) * 0.03;
-            } else if (grossSalary <= 4166.67) {
-                tax = 50 + (grossSalary - 2916.67) * 0.08;
-            } else if (grossSalary <= 5833.33) {
-                tax = 150 + (grossSalary - 4166.67) * 0.13;
-            } else if (grossSalary <= 8333.33) {
-                tax = 362.5 + (grossSalary - 5833.33) * 0.21;
-            } else if (grossSalary <= 20833.33) {
-                tax = 887.5 + (grossSalary - 8333.33) * 0.24;
-            } else if (grossSalary <= 33333.33) {
-                tax = 4000 + (grossSalary - 20833.33) * 0.245;
-            } else if (grossSalary <= 50000.00) {
-                tax = 7075 + (grossSalary - 33333.33) * 0.25;
-            } else if (grossSalary <= 83333.33) {
-                tax = 11000 + (grossSalary - 50000) * 0.26;
-            } else if (grossSalary <= 166666.67) {
-                tax = 20433.33 + (grossSalary - 83333.33) * 0.28;
-            } else {
-                tax = 43716.67 + (grossSalary - 166666.67) * 0.30;
-            }
-            return tax;
-        }
+    public void setMonthYear(String monthYear) {
+        this.monthYear = monthYear;
+    }
 
-        public String getFullName() {
-            return fullName;
-        }
+    public void setIcNumber(String icNumber) {
+        this.icNumber = icNumber;
+    }
 
-        public void setFullName(String fullName) {
-            this.fullName = fullName;
-        }
+    public void setBankAccountNumber(String bankAccountNumber) {
+        this.bankAccountNumber = bankAccountNumber;
+    }
 
-        public String getStaffNumber() {
-            return staffNumber;
-        }
+    public void setTotalCarsSold(int totalCarsSold) {
+        this.totalCarsSold = totalCarsSold;
+    }
 
-        public void setStaffNumber(String staffNumber) {
-            this.staffNumber = staffNumber;
-        }
+    public void setTotalAmountSold(double totalAmountSold) {
+        this.totalAmountSold = totalAmountSold;
+    }
 
-        public String getMonthYear() {
-            return monthYear;
-        }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-        public void setMonthYear(String monthYear) {
-            this.monthYear = monthYear;
-        }
+    public void calculateCommissions() {
+        this.commissions = totalAmountSold * 0.02;
+    }
 
-        public String getIcNumber() {
-            return icNumber;
-        }
+    public void calculateSalaries() {
+        this.salaries = 2000 + commissions;
+    }
 
-        public void setIcNumber(String icNumber) {
-            this.icNumber = icNumber;
-        }
-
-        public String getBankAccountNumber() {
-            return bankAccountNumber;
-        }
-
-        public void setBankAccountNumber(String bankAccountNumber) {
-            this.bankAccountNumber = bankAccountNumber;
-        }
-
-        public int getTotalCarsSold() {
-            return totalCarsSold;
-        }
-
-        public void setTotalCarsSold(int totalCarsSold) {
-            this.totalCarsSold = totalCarsSold;
-        }
-
-        public double getTotalAmountSold() {
-            return totalAmountSold;
-        }
-
-        public void setTotalAmountSold(double totalAmountSold) {
-            this.totalAmountSold = totalAmountSold;
-        }
-
-        @Override
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("┌─────────────────────┐\n");
-            sb.append(String.format("│ %-19s │\n", "Salesman Data"));
-            sb.append("├─────────────────────┤\n");
-            sb.append(String.format("│ %-18s: %-14s │\n", "Full Name", fullName));
-            sb.append(String.format("│ %-18s: %-14s │\n", "Staff Number", staffNumber));
-            sb.append(String.format("│ %-18s: %-14s │\n", "Month/Year", monthYear));
-            sb.append(String.format("│ %-18s: %-14s │\n", "IC Number", icNumber));
-            sb.append(String.format("│ %-18s: %-14s │\n", "Bank Account", bankAccountNumber));
-            sb.append(String.format("│ %-18s: %-14d │\n", "Total Cars Sold", totalCarsSold));
-            sb.append(String.format("│ %-18s: %-14.2f │\n", "Total Amount Sold", totalAmountSold));
-            sb.append(String.format("│ %-18s: %-14.2f │\n", "Car Body Commission", carBodyCommission));
-            sb.append(String.format("│ %-18s: %-14.2f │\n", "Incentive Commission", incentiveCommission));
-            sb.append(String.format("│ %-18s: %-14.2f │\n", "Gross Salary", grossSalary));
-            sb.append(String.format("│ %-18s: %-14.2f │\n", "EPF", epf));
-            sb.append(String.format("│ %-18s: %-14.2f │\n", "Income Tax", incomeTax));
-            sb.append(String.format("│ %-18s: %-14.2f │\n", "Net Salary", netSalary));
-            sb.append("└─────────────────────┘\n");
-
-            return sb.toString();
-        }
-
+    @Override
+    public String toString() {
+        return "Full Name: " + fullName +
+                "\nStaff Number: " + staffNumber +
+                "\nMonth/Year: " + monthYear +
+                "\nIC Number: " + icNumber +
+                "\nBank Account Number: " + bankAccountNumber +
+                "\nTotal Cars Sold: " + totalCarsSold +
+                "\nTotal Amount Sold: " + totalAmountSold +
+                "\nEmployment Status: " + status +
+                "\nCommissions: " + commissions +
+                "\nSalaries: " + salaries;
     }
 }

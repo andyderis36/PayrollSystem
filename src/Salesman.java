@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Salesman {
+public class Salesman implements Serializable {
 
     private String fullName;
     private String staffNumber;
@@ -14,8 +15,9 @@ public class Salesman {
     private double epf;
     private double incomeTax;
     private double netSalary;
+    private String status; // Employment status (added for compatibility)
 
-    public Salesman(String fullName, String staffNumber, String monthYear, String icNumber, String bankAccountNumber, int totalCarsSold, double totalAmountSold) {
+    public Salesman(String fullName, String staffNumber, String monthYear, String icNumber, String bankAccountNumber, int totalCarsSold, double totalAmountSold, String status) {
         this.fullName = fullName;
         this.staffNumber = staffNumber;
         this.monthYear = monthYear;
@@ -23,6 +25,7 @@ public class Salesman {
         this.bankAccountNumber = bankAccountNumber;
         this.totalCarsSold = totalCarsSold;
         this.totalAmountSold = totalAmountSold;
+        this.status = status;
         calculateCommissions();
         calculateSalaries();
     }
@@ -79,6 +82,7 @@ public class Salesman {
         return tax;
     }
 
+    // Getters and setters
     public String getFullName() {
         return fullName;
     }
@@ -135,21 +139,82 @@ public class Salesman {
         this.totalAmountSold = totalAmountSold;
     }
 
+    public double getCarBodyCommission() {
+        return carBodyCommission;
+    }
+
+    public void setCarBodyCommission(double carBodyCommission) {
+        this.carBodyCommission = carBodyCommission;
+    }
+
+    public double getIncentiveCommission() {
+        return incentiveCommission;
+    }
+
+    public void setIncentiveCommission(double incentiveCommission) {
+        this.incentiveCommission = incentiveCommission;
+    }
+
+    public double getGrossSalary() {
+        return grossSalary;
+    }
+
+    public void setGrossSalary(double grossSalary) {
+        this.grossSalary = grossSalary;
+    }
+
+    public double getEpf() {
+        return epf;
+    }
+
+    public void setEpf(double epf) {
+        this.epf = epf;
+    }
+
+    public double getIncomeTax() {
+        return incomeTax;
+    }
+
+    public void setIncomeTax(double incomeTax) {
+        this.incomeTax = incomeTax;
+    }
+
+    public double getNetSalary() {
+        return netSalary;
+    }
+
+    public void setNetSalary(double netSalary) {
+        this.netSalary = netSalary;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "Full Name = " + fullName + "\n"
-                + "Staff Number = " + staffNumber + "\n"
-                + "Month/Year = " + monthYear + "\n"
-                + "IC Number = " + icNumber + "\n"
-                + "Bank Account Number = " + bankAccountNumber + "\n"
-                + "Total Cars Sold = " + totalCarsSold + "\n"
-                + "Total Amount Sold = " + totalAmountSold + "\n"
-                + "Car Body Commission = " + carBodyCommission + "\n"
-                + "Incentive Commission = " + incentiveCommission + "\n"
-                + "Gross Salary = " + grossSalary + "\n"
-                + "EPF = " + epf + "\n"
-                + "Income Tax = " + incomeTax + "\n"
-                + "Net Salary = " + netSalary + "\n"
-                + "\n";
+        return    "===================================================\n" 
+                + "================= SALESMAN INFORMATION =================\n"
+                + "===================================================\n"
+                +"Full Name: " + fullName + "\n"
+                + "Staff Number: " + staffNumber + "\n"
+                + "Date: " + monthYear + "\n"
+                + "IC Number: " + icNumber + "\n"
+                + "Bank Account Number: " + bankAccountNumber + "\n"
+                + "Total Cars Sold: " + totalCarsSold + "\n"
+                + "Total Amount Sold: " + totalAmountSold + "\n"
+                + "---------------------------------------------------------\n"
+                + "Car Body Commission: " + carBodyCommission + "\n"
+                + "Incentive Commission: " + incentiveCommission + "\n"
+                + "Gross Salary: " + grossSalary + "\n"
+                + "EPF: " + epf + "\n"
+                + "Income Tax: " + incomeTax + "\n"
+                + "Net Salary: " + netSalary + "\n"
+                + "Status: " + status + "\n"
+                + "===================================================\n";
     }
 }
