@@ -5,7 +5,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
-import org.w3c.dom.Text;
 
 public class PayrollSystemGUI extends JFrame {
 
@@ -33,18 +32,32 @@ public class PayrollSystemGUI extends JFrame {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.BOTH;
 
+        // Heading Label
+        JLabel headingLabel = new JLabel("Maju Auto Sales Sdn. Bhd");
+        headingLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        headingLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center align the text within the JLabel
+
+        gbc.gridx = 0;  // Column position
+        gbc.gridy = 0;  // Row position
+        gbc.weightx = 1;  // Horizontal weight (if using GridBagLayout)
+        gbc.gridwidth = 1;  // Span across all columns
+        gbc.anchor = GridBagConstraints.CENTER;  // Center align the component in its cell
+
+        container.add(headingLabel, gbc);  // Add headingLabel to container
+
         // Search Panel
-        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         searchField = new JTextField(20);
         searchPanel.add(new JLabel("Search Name or Staff Number:"));
         searchPanel.add(searchField);
 
         gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         gbc.weightx = 1;
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 1;
         container.add(searchPanel, gbc);
 
+        //Form Panel
         JPanel formPanel = new JPanel(new GridBagLayout());
         GridBagConstraints formGbc = new GridBagConstraints();
         formGbc.insets = new Insets(5, 5, 5, 5);
@@ -106,34 +119,35 @@ public class PayrollSystemGUI extends JFrame {
         // Add form panel and button panel to the container
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.weightx = 1;
-        gbc.gridwidth = 2;
+        gbc.weightx = 0;
+        gbc.gridwidth = 0;
         container.add(formPanel, gbc);
-
+        //button
         gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.weightx = 1;
-        gbc.gridwidth = 2;
+        gbc.gridy = 5;
+        gbc.weightx = 0;
+        gbc.gridwidth = 0;
         container.add(buttonPanel, gbc);
 
         // Add label above display area
-        JLabel displayLabel = new JLabel("Search Results:");
+        JLabel displayLabel = new JLabel("Output Results:");
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 3;
         gbc.weightx = 1;
         gbc.weighty = 0;
         gbc.gridwidth = 2;
         container.add(displayLabel, gbc);
 
         // Display area
-        displayArea = new JTextArea(20, 30);
+        displayArea = new JTextArea(20, 50);
         displayArea.setEditable(false);
+
         JScrollPane scrollPane = new JScrollPane(displayArea);
 
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 4;
         gbc.weightx = 1;
-        gbc.weighty = 1;
+        gbc.weighty = 5;
         gbc.gridwidth = 2;
         container.add(scrollPane, gbc);
 
@@ -188,7 +202,7 @@ public class PayrollSystemGUI extends JFrame {
         String searchValue = searchField.getText().trim().toLowerCase();
 
         if (searchValue.isEmpty()) {
-            //displayArea.setText("Search field is empty. Please enter a search value.");
+            displayArea.setText("Search field is empty. Please enter a search value.");
             JOptionPane.showMessageDialog(this, "Search field is empty. Please enter a search value.", "Search", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
@@ -206,7 +220,7 @@ public class PayrollSystemGUI extends JFrame {
         if (found) {
             displayArea.setText(result.toString());
         } else {
-            //displayArea.setText("Salesman not found.");
+            displayArea.setText("Salesman not found.");
             JOptionPane.showMessageDialog(this, "Salesman not found.", "Search", JOptionPane.INFORMATION_MESSAGE);
         }
     }
@@ -223,7 +237,7 @@ public class PayrollSystemGUI extends JFrame {
             }
             displayArea.setText(allSalesmen.toString());
         }
-    }    
+    }
 
     private void editSalesman() {
         String fullName = fullNameField.getText();
@@ -256,12 +270,10 @@ public class PayrollSystemGUI extends JFrame {
 
     private void deleteSalesman() {
         String fullName = fullNameField.getText().trim();
-    
         if (fullName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Salesman Full Name is empty. Please enter a Full Name to delete.", "Delete", JOptionPane.WARNING_MESSAGE);
             return;
         }
-    
         Salesman toRemove = null;
         for (Salesman salesman : salesmen) {
             if (salesman.getFullName().equalsIgnoreCase(fullName)) {
@@ -269,7 +281,6 @@ public class PayrollSystemGUI extends JFrame {
                 break;
             }
         }
-    
         if (toRemove != null) {
             salesmen.remove(toRemove);
             saveSalesmen();
@@ -278,7 +289,6 @@ public class PayrollSystemGUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Salesman not found.", "Delete", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
 
     private void resetFields() {
         fullNameField.setText("");
