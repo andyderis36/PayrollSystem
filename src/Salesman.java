@@ -2,21 +2,10 @@ import java.io.Serializable;
 
 public class Salesman implements Serializable {
 
-    private String fullName;
-    private String staffNumber;
-    private String monthYear;
-    private String icNumber;
-    private String bankAccountNumber;
+    private String fullName, staffNumber, monthYear, icNumber, bankAccountNumber, status;
     private int totalCarsSold;
-    private double totalAmountSold;
-    private double carBodyCommission;
-    private double incentiveCommission;
-    private double grossSalary;
-    private double epf;
-    private double incomeTax;
-    private double netSalary;
-    private String status; // Employment status (added for compatibility)
-
+    private double totalAmountSold, carBodyCommission, incentiveCommission, basicSalary, grossSalary, epf, incomeTax, netSalary;
+    
     public Salesman(String fullName, String staffNumber, String monthYear, String icNumber, String bankAccountNumber, int totalCarsSold, double totalAmountSold, String status) {
         this.fullName = fullName;
         this.staffNumber = staffNumber;
@@ -26,6 +15,7 @@ public class Salesman implements Serializable {
         this.totalCarsSold = totalCarsSold;
         this.totalAmountSold = totalAmountSold;
         this.status = status;
+        this.basicSalary = 1500;
         calculateCommissions();
         calculateSalaries();
     }
@@ -45,7 +35,6 @@ public class Salesman implements Serializable {
     }
 
     public void calculateSalaries() {
-        double basicSalary = 1500;
         this.grossSalary = basicSalary + carBodyCommission + incentiveCommission;
         this.epf = 0.11 * grossSalary;
         this.incomeTax = calculateIncomeTax(grossSalary);
@@ -197,7 +186,7 @@ public class Salesman implements Serializable {
 
     @Override
     public String toString() {
-        return    "===================================================\n" 
+        return  "===================================================\n" 
                 + "================= SALESMAN INFORMATION =================\n"
                 + "===================================================\n"
                 +"Full Name: " + fullName + "\n"
@@ -208,12 +197,13 @@ public class Salesman implements Serializable {
                 + "Total Cars Sold: " + totalCarsSold + "\n"
                 + "Total Amount Sold: " + totalAmountSold + "\n"
                 + "---------------------------------------------------------\n"
-                + "Car Body Commission: " + carBodyCommission + "\n"
-                + "Incentive Commission: " + incentiveCommission + "\n"
-                + "Gross Salary: " + grossSalary + "\n"
-                + "EPF: " + epf + "\n"
-                + "Income Tax: " + incomeTax + "\n"
-                + "Net Salary: " + netSalary + "\n"
+                + "Basic Salary: RM " + basicSalary + "\n"
+                + "Car Body Commission: RM " + carBodyCommission + "\n"
+                + "Incentive Commission: RM " + incentiveCommission + "\n"
+                + "Gross Salary: RM " + grossSalary + "\n"
+                + "EPF: RM " + epf + "\n"
+                + "Income Tax: RM " + incomeTax + "\n"
+                + "Net Salary: RM " + netSalary + "\n"
                 + "Status: " + status + "\n"
                 + "===================================================\n";
     }
