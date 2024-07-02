@@ -195,7 +195,7 @@ public class Salesman implements Serializable {
                 + "IC Number: " + icNumber + "\n"
                 + "Bank Account Number: " + bankAccountNumber + "\n"
                 + "Total Cars Sold: " + totalCarsSold + "\n"
-                + "Total Amount Sold: " + totalAmountSold + "\n"
+                + "Total Amount Sold: RM " + totalAmountSold + "\n"
                 + "---------------------------------------------------------\n"
                 + "Basic Salary: RM " + basicSalary + "\n"
                 + "Car Body Commission: RM " + carBodyCommission + "\n"
