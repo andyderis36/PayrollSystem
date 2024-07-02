@@ -5,6 +5,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+import org.w3c.dom.Text;
 
 public class PayrollSystemGUI extends JFrame {
 
@@ -35,7 +36,7 @@ public class PayrollSystemGUI extends JFrame {
         // Search Panel
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         searchField = new JTextField(20);
-        searchPanel.add(new JLabel("Search by Full Name or Staff Number:"));
+        searchPanel.add(new JLabel("Search Name or Staff Number:"));
         searchPanel.add(searchField);
 
         gbc.gridx = 0;
@@ -102,10 +103,7 @@ public class PayrollSystemGUI extends JFrame {
         addButton(buttonPanel, "Reset", e -> resetFields());
         addButton(buttonPanel, "Exit", e -> System.exit(0));
 
-        displayArea = new JTextArea(20, 30);
-        displayArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(displayArea);
-
+        // Add form panel and button panel to the container
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.weightx = 1;
@@ -118,8 +116,22 @@ public class PayrollSystemGUI extends JFrame {
         gbc.gridwidth = 2;
         container.add(buttonPanel, gbc);
 
+        // Add label above display area
+        JLabel displayLabel = new JLabel("Search Results:");
         gbc.gridx = 0;
         gbc.gridy = 4;
+        gbc.weightx = 1;
+        gbc.weighty = 0;
+        gbc.gridwidth = 2;
+        container.add(displayLabel, gbc);
+
+        // Display area
+        displayArea = new JTextArea(20, 30);
+        displayArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(displayArea);
+
+        gbc.gridx = 0;
+        gbc.gridy = 5;
         gbc.weightx = 1;
         gbc.weighty = 1;
         gbc.gridwidth = 2;
@@ -166,14 +178,21 @@ public class PayrollSystemGUI extends JFrame {
             salesmen.add(salesman);
             saveSalesmen();
 
-            displayArea.setText("Salesman data saved successfully.\n \n" + salesman.toString());
+            JOptionPane.showMessageDialog(this, "Salesman data saved successfully.", "Calculate and Save", JOptionPane.INFORMATION_MESSAGE);
         } catch (NumberFormatException e) {
-            displayArea.setText("Error: Please enter valid numbers for total cars sold and total amount sold.");
+            JOptionPane.showMessageDialog(this, "Error: Please enter valid String or Integer!", "Calculate and Save", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     private void searchSalesman() {
         String searchValue = searchField.getText().trim().toLowerCase();
+
+        if (searchValue.isEmpty()) {
+            //displayArea.setText("Search field is empty. Please enter a search value.");
+            JOptionPane.showMessageDialog(this, "Search field is empty. Please enter a search value.", "Search", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
         boolean found = false;
         StringBuilder result = new StringBuilder();
 
@@ -187,18 +206,24 @@ public class PayrollSystemGUI extends JFrame {
         if (found) {
             displayArea.setText(result.toString());
         } else {
-            displayArea.setText("Salesman not found.");
+            //displayArea.setText("Salesman not found.");
+            JOptionPane.showMessageDialog(this, "Salesman not found.", "Search", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     private void displayAllSalesmen() {
-        StringBuilder allSalesmen = new StringBuilder();
-        for (int i = 0; i < salesmen.size(); i++) {
-            allSalesmen.append("[ SALESMAN - ").append(i + 1).append(" ] \n");
-            allSalesmen.append(salesmen.get(i).toString()).append("\n");
+        if (salesmen.isEmpty()) {
+            //displayArea.setText("No salesman data available.");
+            JOptionPane.showMessageDialog(this, "No salesmen data available.", "Display", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            StringBuilder allSalesmen = new StringBuilder();
+            for (int i = 0; i < salesmen.size(); i++) {
+                allSalesmen.append("[ SALESMAN - ").append(i + 1).append(" ] \n");
+                allSalesmen.append(salesmen.get(i).toString()).append("\n");
+            }
+            displayArea.setText(allSalesmen.toString());
         }
-        displayArea.setText(allSalesmen.toString());
-    }
+    }    
 
     private void editSalesman() {
         String fullName = fullNameField.getText();
@@ -217,9 +242,11 @@ public class PayrollSystemGUI extends JFrame {
                     salesman.calculateCommissions();
                     salesman.calculateSalaries();
                     saveSalesmen();
-                    displayArea.setText("Salesman data updated successfully.\n" + salesman.toString());
+                    //displayArea.setText("Salesman data updated successfully.\n" + salesman.toString());
+                    JOptionPane.showMessageDialog(this, "Salesman data updated successfully.", "Edit", JOptionPane.WARNING_MESSAGE);
                 } catch (NumberFormatException e) {
                     displayArea.setText("Error: Please enter valid numbers for total cars sold and total amount sold.");
+                    JOptionPane.showMessageDialog(this, "Error: Please enter valid String or Integer!", "Edit", JOptionPane.WARNING_MESSAGE);
                 }
                 return;
             }
@@ -228,7 +255,13 @@ public class PayrollSystemGUI extends JFrame {
     }
 
     private void deleteSalesman() {
-        String fullName = fullNameField.getText();
+        String fullName = fullNameField.getText().trim();
+    
+        if (fullName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Salesman Full Name is empty. Please enter a Full Name to delete.", "Delete", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+    
         Salesman toRemove = null;
         for (Salesman salesman : salesmen) {
             if (salesman.getFullName().equalsIgnoreCase(fullName)) {
@@ -236,14 +269,16 @@ public class PayrollSystemGUI extends JFrame {
                 break;
             }
         }
+    
         if (toRemove != null) {
             salesmen.remove(toRemove);
             saveSalesmen();
-            displayArea.setText("Salesman data deleted successfully.");
+            JOptionPane.showMessageDialog(this, "Salesman data deleted successfully.", "Delete", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            displayArea.setText("Salesman not found.");
+            JOptionPane.showMessageDialog(this, "Salesman not found.", "Delete", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+    
 
     private void resetFields() {
         fullNameField.setText("");
@@ -257,13 +292,17 @@ public class PayrollSystemGUI extends JFrame {
         statusGroup.clearSelection();
         displayArea.setText("");
         searchField.setText("");
+
+        // Display a message dialog
+        JOptionPane.showMessageDialog(this, "All fields have been reset.", "Reset", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void saveSalesmen() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("salesmen.dat"))) {
             oos.writeObject(salesmen);
         } catch (IOException e) {
-            displayArea.setText("Error: Could not save salesmen data.");
+            //displayArea.setText("Error: Could not save salesmen data.");
+            JOptionPane.showMessageDialog(this, "Error: Could not save salesmen data.", "Save", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -463,10 +502,10 @@ class Salesman implements Serializable {
 
     @Override
     public String toString() {
-        return  "===================================================\n" 
+        return "===================================================\n"
                 + "================= SALESMAN INFORMATION =================\n"
                 + "===================================================\n"
-                +"Full Name: " + fullName + "\n"
+                + "Full Name: " + fullName + "\n"
                 + "Staff Number: " + staffNumber + "\n"
                 + "Date: " + monthYear + "\n"
                 + "IC Number: " + icNumber + "\n"
@@ -474,13 +513,13 @@ class Salesman implements Serializable {
                 + "Total Cars Sold: " + totalCarsSold + "\n"
                 + "Total Amount Sold: RM " + totalAmountSold + "\n"
                 + "---------------------------------------------------------\n"
-                + "Basic Salary: RM " + basicSalary + "\n"
+                + "Basic Salary: RM " + basicSalary + "/Month" + "\n"
                 + "Car Body Commission: RM " + carBodyCommission + "\n"
                 + "Incentive Commission: RM " + incentiveCommission + "\n"
-                + "Gross Salary: RM " + grossSalary + "\n"
+                + "Gross Salary: RM " + grossSalary + "/Month" + "\n"
                 + "EPF: RM " + epf + "\n"
                 + "Income Tax: RM " + incomeTax + "\n"
-                + "Net Salary: RM " + netSalary + "\n"
+                + "Net Salary: RM " + netSalary + "/Month" + "\n"
                 + "Status: " + status + "\n"
                 + "===================================================\n";
     }

@@ -1,3 +1,4 @@
+
 import java.io.Serializable;
 
 public class Salesman implements Serializable {
@@ -5,7 +6,7 @@ public class Salesman implements Serializable {
     private String fullName, staffNumber, monthYear, icNumber, bankAccountNumber, status;
     private int totalCarsSold;
     private double totalAmountSold, carBodyCommission, incentiveCommission, basicSalary, grossSalary, epf, incomeTax, netSalary;
-    
+
     public Salesman(String fullName, String staffNumber, String monthYear, String icNumber, String bankAccountNumber, int totalCarsSold, double totalAmountSold, String status) {
         this.fullName = fullName;
         this.staffNumber = staffNumber;
@@ -186,10 +187,10 @@ public class Salesman implements Serializable {
 
     @Override
     public String toString() {
-        return  "===================================================\n" 
+        return "===================================================\n"
                 + "================= SALESMAN INFORMATION =================\n"
                 + "===================================================\n"
-                +"Full Name: " + fullName + "\n"
+                + "Full Name: " + fullName + "\n"
                 + "Staff Number: " + staffNumber + "\n"
                 + "Date: " + monthYear + "\n"
                 + "IC Number: " + icNumber + "\n"
@@ -197,13 +198,13 @@ public class Salesman implements Serializable {
                 + "Total Cars Sold: " + totalCarsSold + "\n"
                 + "Total Amount Sold: RM " + totalAmountSold + "\n"
                 + "---------------------------------------------------------\n"
-                + "Basic Salary: RM " + basicSalary + "\n"
+                + "Basic Salary: RM " + basicSalary + "/Month" + "\n"
                 + "Car Body Commission: RM " + carBodyCommission + "\n"
                 + "Incentive Commission: RM " + incentiveCommission + "\n"
-                + "Gross Salary: RM " + grossSalary + "\n"
+                + "Gross Salary: RM " + grossSalary + "/Month" + "\n"
                 + "EPF: RM " + epf + "\n"
                 + "Income Tax: RM " + incomeTax + "\n"
-                + "Net Salary: RM " + netSalary + "\n"
+                + "Net Salary: RM " + netSalary + "/Month" + "\n"
                 + "Status: " + status + "\n"
                 + "===================================================\n";
     }
