@@ -1,11 +1,11 @@
-
 import java.io.Serializable;
 
-public class Salesman implements Serializable {
+public final class Salesman implements Serializable {
 
     private String fullName, staffNumber, monthYear, icNumber, bankAccountNumber, status;
     private int totalCarsSold;
-    private double totalAmountSold, carBodyCommission, incentiveCommission, basicSalary, grossSalary, epf, incomeTax, netSalary;
+    private final double basicSalary;
+    private double totalAmountSold, carBodyCommission, incentiveCommission, grossSalary, epf, incomeTax, netSalary;
 
     public Salesman(String fullName, String staffNumber, String monthYear, String icNumber, String bankAccountNumber, int totalCarsSold, double totalAmountSold, String status) {
         this.fullName = fullName;
@@ -20,7 +20,7 @@ public class Salesman implements Serializable {
         calculateCommissions();
         calculateSalaries();
     }
-
+    
     public void calculateCommissions() {
         this.carBodyCommission = 0.01 * this.totalAmountSold;
 
@@ -187,8 +187,9 @@ public class Salesman implements Serializable {
 
     @Override
     public String toString() {
-        return "===================================================\n"
-                + "================= SALESMAN INFORMATION =================\n"
+        return 
+                "===================================================\n"
+                +"================= SALESMAN INFORMATION =================\n"
                 + "===================================================\n"
                 + "Full Name: " + fullName + "\n"
                 + "Staff Number: " + staffNumber + "\n"
