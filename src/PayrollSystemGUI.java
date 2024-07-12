@@ -174,7 +174,16 @@ public class PayrollSystemGUI extends JFrame {
     }
 
     private String[] getYears() {
-        return new String[]{"2024", "2025", "2026"};
+        int startYear = 2020;
+        int endYear = 2045;
+        int numYears = endYear - startYear + 1;
+        String[] years = new String[numYears];
+
+        for (int i = 0; i < numYears; i++) {
+            years[i] = String.valueOf(startYear + i);
+        }
+
+        return years;
     }
 
     private void calculateAndSaveData() {
@@ -182,11 +191,21 @@ public class PayrollSystemGUI extends JFrame {
             Salesman salesman = createSalesmanFromFields();
             salesmen.add(salesman);
             saveSalesmen();
+            saveSalesmanToTextFile(salesman);
 
             displayArea.setText(salesman.toString());
             JOptionPane.showMessageDialog(this, "Salesman data saved successfully.", "Calculate and Save", JOptionPane.INFORMATION_MESSAGE);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Error: Please enter valid numbers for total cars sold and total amount sold.", "Calculate and Save", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void saveSalesmanToTextFile(Salesman salesman) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("salesmen.txt", true))) {
+            writer.write(salesman.toString());
+            writer.newLine();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error: Could not save salesman data to text file.", "Save to Text File", JOptionPane.ERROR_MESSAGE);
         }
     }
 
