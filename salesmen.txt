@@ -1,0 +1,42 @@
+===================================================
+================= SALESMAN INFORMATION =================
+===================================================
+Full Name: andyderis
+Staff Number: 296530
+Date: Jul 2024
+IC Number: E1146880
+Bank Account Number: 082112222319
+Total Cars Sold: 100
+Total Amount Sold: RM 100000.0
+---------------------------------------------------------
+Basic Salary: RM 1500.0/Month
+Car Body Commission: RM 1000.0
+Incentive Commission: RM 60000.0
+Gross Salary: RM 62500.0/Month
+EPF: RM 6875.0
+Income Tax: RM 14250.0
+Net Salary: RM 41375.0/Month
+Status: Contract
+===================================================
+
+===================================================
+================= SALESMAN INFORMATION =================
+===================================================
+Full Name: putra
+Staff Number: 296878
+Date: Dec 2045
+IC Number: E1149887
+Bank Account Number: 174339676
+Total Cars Sold: 150
+Total Amount Sold: RM 250000.0
+---------------------------------------------------------
+Basic Salary: RM 1500.0/Month
+Car Body Commission: RM 2500.0
+Incentive Commission: RM 90000.0
+Gross Salary: RM 94000.0/Month
+EPF: RM 10340.0
+Income Tax: RM 23419.997600000002
+Net Salary: RM 60240.0024/Month
+Status: Permanent
+===================================================
+

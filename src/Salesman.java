@@ -1,6 +1,5 @@
-import java.io.Serializable;
 
-public final class Salesman implements Serializable {
+public final class Salesman {
 
     private String fullName, staffNumber, monthYear, icNumber, bankAccountNumber, status;
     private int totalCarsSold;
